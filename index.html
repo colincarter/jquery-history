@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>HTML5 History JQuery plugin</title>
+  <!--<script type='text/javascript' src='src/firebug-lite-compressed.js'></script>-->
+</head>
+<body>
+  <p>
+    <a href="#link1" class="link">Link1</a>
+    <a href="#link2" class="link">Link2</a>
+    <a href="#link3" class="link">Link3</a>
+    <a href="#link4" class="link">Link4</a>
+  </p>
+  <p class="link1 content">Hello Link 1</p>
+  <p class="link2 content">Hello Link 2</p>
+  <p class="link3 content">Hello Link 3</p>
+  <p class="link4 content">Hello Link 4</p>
+  <p>
+    <a href="back" class="back">Back</a>
+    <a href="forward" class="forward">Forward</a>
+  </p>
+  <script type="text/javascript" src="src/jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="src/jquery-history.js"></script>
+  
+  <script type="text/javascript">
+    function cleanHash(hash) {
+      return hash.replace('#', '');
+    }
+    
+    $('.content').hide();
+    
+    $('a.link').bind('click', function($event) {
+      $.history.pushState($event.currentTarget.hash);
+      $('.content').hide();
+      
+      $('.' + cleanHash($event.currentTarget.hash)).show();
+      return false;
+    });
+  
+    $('a.back').bind('click', function($event) {
+      $.history.back();
+      return false;
+    });
+    
+    $('a.forward').bind('click', function($event) {
+      $.history.forward();
+      return false;
+    });
+    
+    $.history.init(function(hash) {
+      console.log('callback ', hash);
+      $('.content').hide();
+      if (hash !== '') {
+        $('.' + hash).show();
+      }
+    });
+    
+    var hash = cleanHash(window.location.hash);
+    if (hash !== '') {
+      $('.' + hash).show();
+    }
+    
+    
+  </script>
+</body>
+</html>
+  

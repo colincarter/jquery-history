@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>jquery.fn.typeAhead Javascript tests</title>
+  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen" />
+</head>
+<body>
+  <h1 id="qunit-header">jquery.history Javascript tests</h1>
+  <h2 id="qunit-banner"></h2>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  
+  <script type="text/javascript" src="../src/jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="qunit.js"></script>
+  <script type="text/javascript" src="../src/jquery-history.js"></script>
+
+  <script type="text/javascript">
+    module('jquery.history tests');
+    
+    test('URL changes in correct order', function() {
+      $.history.init(function(hash) {
+        console.log('here');
+        ok(hash === 'test3', 'back ok');
+        start();
+      });
+      
+      stop();      
+      $.history.pushState('#test1');
+      $.history.pushState('#test2');
+      $.history.pushState('#test3');
+      
+      $.history.back();
+      $.history.forward();
+      if (window.history.pushState) {
+        var event = $.Event('hashchange');
+        $(window).trigger(event);
+      }
+      
+    });
+    
+  </script>
+</body>
+</html>
